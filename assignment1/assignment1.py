@@ -3,7 +3,6 @@ def hello():
     return "Hello!"
 
 result = hello()
-print(result)
 
 
 #Task_2: Greet with a Formatted String
@@ -11,99 +10,131 @@ def greet(name):
     return f"Hello, {name}!"
 
 result = greet("Aiperi")
-print(result)
 
 
 #Task_3: Calculator
-def calc(a, b, c = "multiply"):
-    if c == "add":
-        return a + b
-    elif c == "subtract":
-        return a - b
-    elif c == "multiply":
-        try:
+operator = ("add", "subtract", "multiply", "divide", "modulo", "int_divide", "power")
+def calc(a, b, operation = "multiply"):
+    try:
+        if operation == "add":
+            return a + b
+        elif operation == "subtract":
+            return a - b
+        elif operation == "multiply":
             return a * b
-        except:
-            return f"You can't multiply those values!"
-    elif c == "divide":
-        try: 
+        elif operation == "divide":
             return a / b
-        except ZeroDivisionError:
-            return f"You can't divide by 0!"
-        except:
+        elif operation == "modulo":
+            return a % b
+        elif operation == "int_divide":
+            return a // b
+        elif operation == "power":
+            return a ** b
+        elif operation not in operator:
+            return f"Wrong Operation"
+            
+    except ZeroDivisionError:
+        return f"You can't divide by 0!"
+    except TypeError:
+        if operation == "add":
+            return f"You can't add those values!"
+        if operation == "subtract":
+            return f"You can't subtract those values!"
+        if operation == "multiply":
+            return f"You can't multiply those values!"
+        if operation == "divide":
             return f"You can't divide those values!"
-    elif c == "modulo":
-        return a % b
-    elif c == "int_divide":
-        return a // b
-    return result
+        if operation == "modulo":
+            return f"You can't modulo those values!"
+        if operation == "int_divide":
+            return f"You can't divide those values!"
+        if operation == "power":
+            return f"You can't power those values!"
+    except Exception as e:
+        return f"An error occured: {e}"
+    
 
-result = (calc("as", "as", "multiply"))
-print(result)
+res = (calc(1,10, "add"))
+print(res)
 
 
 #Task_4: Data Type Conversion
-def data_type_conversion(value, type):
-    if type == "float":
-        try:
+target_type = ("int", "str", "float")
+def data_type_conversion(value, datatype):
+    try:
+        if datatype == "float":
             return float(value)
-        except:
-            return f"You can't convert {value} into a {type}."
-    elif type == "str":
-        return str(value)
-    elif type == "int":
-        try:
+        elif datatype == "str":
+            return str(value)
+        elif datatype == "int":
             return int(value)
-        except:
-            return f"You can't convert {value} into a {type}."
+        elif datatype not in target_type:
+            return f"Wrong data type"
+    except ValueError:
+        return f"You can't convert {value} into a {datatype}."
+    except Exception as e:
+        return f"An error occured {e}"
     
-result = data_type_conversion("banana", "int")
+result = data_type_conversion(20, "str")
 print(result)
 
 
 #Task_5: Grading System, Using *args
 def grade(*args):
     try:
-        result = sum(args) / len(args)
-        if result >= 90:
+        average = sum(args) / len(args)
+        if average >= 90:
             return "A"
-        elif 80 <= result <= 89:
+        elif average >= 80:
             return "B"
-        elif 70 <= result <= 79:
+        elif average >= 70:
             return "C"
-        elif 60 <= result <= 69:
+        elif average >= 60:
             return "D"
-        elif result <= 60:
+        elif average <= 60:
             return "F"
-    except:
+    except ValueError:
         return f"Invalid data was provided."
+    except TypeError:
+        return f"Invalid data was provided."
+    except Exception as e:
+        return f"An error occured {e}"
     
-result = grade("70", 80, 90)
+result = grade(70, 60, 90)
 print(result)
 
 
 #Task_6: Use a For Loop with a Range
 def repeat(string, count):
     for i in range(count):
-        return string * count
+        result = string * count
+    return result
 
 result = repeat("Aika ", 5)
 print(result)
 
 
 #Task_7: Student Scores, Using **kwargs
-def student_scores(x, **kwargs):
-    if x == "best":
-        for key, value in kwargs.items():
-            if value == max(kwargs.values()):
-                return key
-    elif x == "mean":
-        for key, value in kwargs.items():
-            return sum(kwargs.values()) / len(kwargs.keys())
+def student_scores(mode, **kwargs):
+    try:
+        if not kwargs:
+            return f"Empty values"
+        if mode == "best":
+            max_value = max(kwargs.values())
+            for key, value in kwargs.items():
+                if value == max_value:
+                    return key
+        elif mode == "mean":
+            return sum(kwargs.values()) / len(kwargs)
+        else:
+            return f"Wrong mode"
+    except TypeError:
+        return f"Type Error"
+    except Exception as e:
+        return f"An error occured {e}"
+    
 
-
-
-result = student_scores("mean", John = 23, Peri = 78, Ademi = 55, Alim = 20)
+result = student_scores("best", John = 24, Aika = 78, Daniel = 56, Chase = 89)
 print(result)
 
 
@@ -118,29 +149,29 @@ def titleize(text):
         if i == len(words) - 1:
             words[i] = words[i].capitalize()
             continue
-        if word not in little_words:
+        if word.lower() not in little_words:
             words[i] = word.capitalize()
         else:
-            words[i] = word
+            words[i] = word.lower()
 
     
     return " ".join(words)
 
-result = titleize("war and peace")
+result = titleize("war and The peace")
 print(result)
 
 
 #Task_9: Hangman, with more String Operations
 def hangman(secret, guess):
     result = ""
-    for i, letter in enumerate(secret):
-        if secret[i] in guess:
+    for letter in secret:
+        if letter in guess:
             result += letter
         else:
             result += "_"
     return result
 
-result = hangman("Aiperi","ic")
+result = hangman("Aiperi","pi")
 print(result)
 
 
@@ -150,23 +181,26 @@ def pig_latin(sentence):
     result = []
     vowel = "aeiou"
     for word in words:
-        if word[0] in vowel:
-            result.append(word + "ay")
-            continue
-        if word[0] not in vowel and word[1:3] == "qu":
-            result.append(word[3:] + word[0] + "qu" + "ay")
-            continue
         if word[:2] == "qu":
-            result.append(word[2:] + "qu" + "ay")
-            continue
-        if word[0] not in vowel and word[1] not in vowel:
-            result.append(word[2:] + word[0] + word[1] + "ay")
-            continue
+            for i in range(2, len(word)):
+                if word[i] in vowel:
+                    break
+            result.append(word[i:] + word[:2] + "ay")
+            
+        elif word[0] not in vowel:
+                i = 0
+                while i < len(word):
+                    if word[i] in vowel:
+                        break
+                    if word[i] == "q" and i + 1 < len(word) and word[i + 1] == "u":
+                        i += 2
+                        break
+                    i += 1
+                result.append(word[i:] + word[:i] + "ay")
         else:
-            if word[0] not in vowel:
-                result.append(word[1:] + word[0] + "ay")
+            result.append(word + "ay")
     return " ".join(result)
 
 
-result = pig_latin("apple")
+result = pig_latin("string")
 print(result)
