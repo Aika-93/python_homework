@@ -1,3 +1,4 @@
+import traceback
 import csv
 import os
 import custom_module
@@ -5,32 +6,39 @@ from datetime import datetime
 
 #Task_2: Read a CSV File
 def read_employees():
-    myDict = {}
-    myList = []
+    result_dict = {}
+    rows_list = []
     try:
         with open("../csv/employees.csv", "r") as file:
             reader = csv.reader(file)
             for i, row in enumerate(reader):
                 if i == 0:
-                    myDict.update({"fields": row})
+                    result_dict.update({"fields": row})
                 else:
-                    myList.append(row)
-            myDict.update({"rows": myList})
+                    rows_list.append(row)
+            result_dict.update({"rows": rows_list})
     except Exception as e:
-        return f"An error occured {e}"
-        sys.exit(1)
-    return myDict
+        trace_back = traceback.extract_tb(e.__traceback__)
+        stack_trace = list()
+        for trace in trace_back:
+            stack_trace.append(f'File : {trace[0]} , Line : {trace[1]}, Func.Name : {trace[2]}, Message : {trace[3]}')
+        print(f"Exception type: {type(e).__name__}")
+        message = str(e)
+        if message:
+            print(f"Exception message: {message}")
+        print(f"Stack trace: {stack_trace}")
+    return result_dict
 
 employees = read_employees()
 print(employees)
 
 
 #Task_3: Find the Column Index
-def column_index(a):
-    if a in employees["fields"]:
-        return employees["fields"].index(a)
+def column_index(column_name):
+    if column_name in employees["fields"]:
+        return employees["fields"].index(column_name)
     else:
-        return None
+        return -1
 
 
 employee_id_column = column_index("employee_id")
@@ -60,7 +68,7 @@ print(result)
 
 #Task_6: Find the Employee with a Lambda
 def employee_find_2(employee_id):
-    matches = list(filter(lambda row : int(row[employee_id_column]) == employee_id , employees["rows"]))
+    matches = list(filter(lambda row: int(row[employee_id_column]) == employee_id, employees["rows"]))
     return matches
 
 result = employee_find_2(2)
@@ -69,7 +77,8 @@ print(result)
 
 #Task_7: Sort the Rows by last_name Using a Lambda
 def sort_by_last_name():
-    employees["rows"].sort(key = lambda row: row[column_index("last_name")])
+    column = column_index("last_name")
+    employees["rows"].sort(key = lambda row: row[column])
     return employees["rows"]
     
 
@@ -79,10 +88,11 @@ print(employees["rows"])
 
 #Task_8: Create a dict for an Employee
 def employee_dict(row):
-    keys = employees["fields"][1:]
-    values = row[1:]
-    new_dict = dict(zip(keys, values))
-    return new_dict
+    id_index = column_index("employee_id") 
+    keys = employees["fields"][:id_index] + employees["fields"][id_index+1:]
+    values = row[:id_index] + row[id_index+1:]
+    employee_info = dict(zip(keys, values))
+    return employee_info
 
 
 result = employee_dict(['10', 'Kelli', 'Bowman', '+379 (843)240-1818x77648'])
@@ -93,7 +103,7 @@ print(result)
 def all_employees_dict():
     all_employees = {} 
     for row in employees["rows"]:
-        all_employees.update({row[0]: employee_dict(row)})
+        all_employees[row[employee_id_column]] = employee_dict(row)
     return all_employees
         
 
@@ -120,12 +130,23 @@ print(custom_module.secret)
 #Task_12: Read minutes1.csv and minutes2.csv
 def read_minutes():
     def read_csv(file_name):
-        results = {"fields": [], "rows": []}
-        with open(file_name) as f:
-            reader = csv.reader(f)
-            results["fields"] = next(reader)
-            results["rows"] = [tuple(row) for row in reader]
-        return results
+        try:
+            results = {"fields": [], "rows": []}
+            with open(file_name) as f:
+                reader = csv.reader(f)
+                results["fields"] = next(reader)
+                results["rows"] = [tuple(row) for row in reader]
+            return results
+        except Exception as e:
+            trace_back = traceback.extract_tb(e.__traceback__)
+            stack_trace = list()
+            for trace in trace_back:
+                stack_trace.append(f'File : {trace[0]} , Line : {trace[1]}, Func.Name : {trace[2]}, Message : {trace[3]}')
+            print(f"Exception type: {type(e).__name__}")
+            message = str(e)
+            if message:
+                print(f"Exception message: {message}")
+            print(f"Stack trace: {stack_trace}")
     
     minutes1 = read_csv("../csv/minutes1.csv")
     minutes2 = read_csv("../csv/minutes2.csv")
