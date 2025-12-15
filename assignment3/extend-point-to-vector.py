@@ -9,7 +9,7 @@ class Point:
         return self.x == other.x and self.y == other.y
 
     def __str__(self):
-        return F"{self.x}, {self.y}"
+        return f"Point {self.x}, {self.y}"
 
     def distance_to(self, other):
         dx = self.x - other.x
@@ -21,7 +21,7 @@ class Vector(Point):
         super().__init__(x, y)
 
     def __str__(self):
-        return f"{self.x}, {self.y}"
+        return f"Vector {self.x}, {self.y}"
     
     def __add__(self, other):
         return Vector (self.x + other.x, self.y + other.y)
