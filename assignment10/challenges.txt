@@ -1,0 +1,6 @@
+Challenges faced:
+It was hard to find the right links because there are many on the page, but I needed only the 10 top risks.
+I also had trouble writing the correct XPath
+
+How I solved it:
+I checked the page HTML carefully and used XPath with starts-with to get only the links for A01-A10

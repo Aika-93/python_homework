@@ -1,0 +1,16 @@
+Which sections of the website are restricted for crawling?
+
+Restricted sections include Wikipedia talk pages, administrator and arbitration pages, noticeboards, editor and user review pages.
+
+
+Are there specific rules for certain user agents?
+
+Yes, there are specific rules for certain user agents.
+Some bots such as HTTrack, WebCopier, and Zealbot are completely disallowed from crawling the site using "Disallow: /"
+
+
+
+Reflect on why websites use robots.txt and write 2-3 sentences explaining its purpose and how it promotes ethical scraping.
+
+Websites use robots.txt to protect sensitive or internal information and prevent misuse by bots.
+It promotes ethical scarping by clearly telling developers which parts of a website are allowed or not allowed to be crawled.
