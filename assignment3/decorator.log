@@ -1,0 +1,42 @@
+this string would be logged
+this string would be logged
+this string would be logged
+function: example
+positional parameters: none
+keyword parameters: none
+return: Hello World
+function: arguments
+positional parameters: (5, 7, 8)
+keyword parameters: none
+return: True
+function: return_decorator
+positional parameters: none
+keyword parameters: {'name': 'Aiperi', 'age': 32}
+return: <function logger_decorator at 0x000001C546B43E20>
+this string would be logged
+this string would be logged
+this string would be logged
+this string would be logged
+this string would be logged
+this string would be logged
+this string would be logged
+this string would be logged
+this string would be logged
+this string would be logged
+this string would be logged
+this string would be logged
+function: example
+positional parameters: none
+keyword parameters: none
+return: Hello World
+
+function: arguments
+positional parameters: (5, 7, 8)
+keyword parameters: none
+return: True
+
+function: return_decorator
+positional parameters: none
+keyword parameters: {'name': 'Aiperi', 'age': 32}
+return: <function logger_decorator at 0x000002B0AA693E20>
+
